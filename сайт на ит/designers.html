@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДИЗАЙНЕРЫ</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --accent: #a0a0a0;
+            --text-light: #e0e0e0;
+            --bg-dark: #0a0a0a;
+            --bg-light: #1a1a1a;
+            --stitch: rgba(65, 65, 65, 0.3);
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, var(--stitch) 50%, transparent 100%);
+            background-size: 300% 300%;
+            animation: stitchMove 15s infinite linear;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        @keyframes stitchMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+        }
+        
+        nav a {
+            color: #ccc;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        nav a.active::after {
+            width: 100%;
+        }
+        
+        .designers-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .designer-card {
+            display: flex;
+            margin: 3rem 0;
+            align-items: center;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .designer-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .designer-photo {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .designer-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .designer-photo::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, transparent 60%);
+            z-index: 1;
+        }
+        
+        .designer-photo::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            z-index: 1;
+        }
+        
+        .designer-card:hover .designer-photo img {
+            transform: scale(1.05);
+        }
+        
+        .designer-info {
+            flex: 1;
+        }
+        
+        .designer-info h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .designer-info h2::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s ease;
+        }
+        
+        .designer-card:hover .designer-info h2::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .designer-info p {
+            margin-bottom: 0.5rem;
+            color: #aaa;
+        }
+        
+        .designer-info a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 1rem;
+            position: relative;
+            padding-bottom: 2px;
+        }
+        
+        .designer-info a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+        
+        .designer-info a:hover::after {
+            width: 100%;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #333;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fashion Archive</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="designers.html" class="active">Дизайнеры</a>
+            <a href="shows.html">Показы</a>
+        </nav>
+    </header>
+
+    <div class="designers-container">
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Rei Kawakubo.jpg" alt="Rei Kawakubo"></div>
+            <div class="designer-info">
+                <h2>Rei Kawakubo</h2>
+                <p><strong>Годы жизни:</strong> 1942–н.в.</p>
+                <p><strong>Страна:</strong> Япония</p>
+                <p><strong>Бренды:</strong> Comme des Garçons</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Рей Кавакубо родилась в Токио, изучала искусство и литературу в университете Кэйо. Не имея формального образования в моде, она начала карьеру как стилист и фотограф.</p>
+    <p><strong>Вдохновение:</strong> Её работы часто вдохновлены концепциями "разрушения" и "несовершенства". Она отвергает традиционные стандарты красоты, создавая одежду как искусство.</p>
+    <p><strong>Карьера:</strong> Основала Comme des Garçons в 1969 году. Её коллекции 1980-х шокировали мир моды, получив прозвище "Хиросима-шик".</p>
+    <p><strong>Интересный факт:</strong> Кавакубо редко даёт интервью, предпочитая, чтобы её работы говорили за неё.</p>
+</div>
+
+        
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Yohji Yamamoto.jpg" alt="Yohji Yamamoto"></div>
+            <div class="designer-info">
+                <h2>Yohji Yamamoto</h2>
+                <p><strong>Годы жизни:</strong> 1943–н.в.</p>
+                <p><strong>Страна:</strong> Япония</p>
+                <p><strong>Бренды:</strong> Yohji Yamamoto</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1943 в Токио. Изучал право, но после смерти отца-портного увлёкся модой. Окончил Bunka Fashion College.</p>
+    <p><strong>Философия:</strong> "Я хочу защитить женщин". Его объёмные чёрные силуэты стали символом анти-гламура.</p>
+    <p><strong>Коллаборации:</strong> Линия Y-3 для Adidas (2003) — первый luxury-спорт в истории.</p>
+    <p><strong>Интересное:</strong> В молодости мечтал стать актёром и даже снялся в фильме "Таксист" (1976).</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Issey Miyake.jpg" alt="Issey Miyake"></div>
+            <div class="designer-info">
+                <h2>Issey Miyake</h2>
+                <p><strong>Годы жизни:</strong> 1938–2022</p>
+                <p><strong>Страна:</strong> Япония</p>
+                <p><strong>Бренды:</strong> Issey Miyake</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1938 в Хиросиме, пережил атомную бомбардировку. Учился графическому дизайну в Tama Art University.</p>
+    <p><strong>Инновации:</strong> Пионер "одной нити" — технология, где одежда создаётся из цельного полотна без швов.</p>
+    <p><strong>Наследие:</strong> Его парфюм L'eau d'Issey (1992) — эталон минимализма в парфюмерии.</p>
+    <p><strong>Интересное:</strong> Одевал Бориса Ельцина и Стива Джобса (его водолазки стали культовыми).</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Raf Simons.jpg" alt="Raf Simons"></div>
+            <div class="designer-info">
+                <h2>Raf Simons</h2>
+                <p><strong>Годы жизни:</strong> 1968–н.в.</p>
+                <p><strong>Страна:</strong> Бельгия</p>
+                <p><strong>Бренды:</strong> Raf Simons</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1968 в Бельгии. Изучал промышленный дизайн, но увлёкся модой после шоу Martin Margiela (1990).</p>
+    <p><strong>Стиль:</strong> Соединяет бунтарский дух панка с чистым минимализмом. Обожал молодёжные субкультуры.</p>
+    <p><strong>Карьера:</strong> Возглавлял Dior (2012-2015) и Calvin Klein (2016-2018). Его коллекции для Jil Sander стали легендарными.</p>
+    <p><strong>Интересное:</strong> Коллекция "Virginia Creeper" (2023) была вдохновлена ядовитым плющом.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Alexander McQueen.jpg" alt="Alexander McQueen"></div>
+            <div class="designer-info">
+                <h2>Alexander McQueen</h2>
+                <p><strong>Годы жизни:</strong> 1969–2010</p>
+                <p><strong>Страна:</strong> Великобритания</p>
+                <p><strong>Бренды:</strong> Alexander McQueen</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1969 в Лондоне в семье таксиста. Учился в Central Saint Martins. Открыл свой дом моды в 1992.</p>
+    <p><strong>Драматургия:</strong> Его показы были театром — модели в стеклянном кубе (2001) или с роботами-распылителями краски (1999).</p>
+    <p><strong>Наследие:</strong> После его смерти в 2010 бренд возглавила Сара Бертон, создавшая платье для свадьбы Кейт Миддлтон.</p>
+    <p><strong>Интересное:</strong> Коллекция "Highland Rape" (1995) вызвала скандал обвинениями в романтизации насилия.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Vivienne Westwood.jpg" alt="Vivienne Westwood"></div>
+            <div class="designer-info">
+                <h2>Vivienne Westwood</h2>
+                <p><strong>Годы жизни:</strong> 1941–2022</p>
+                <p><strong>Страна:</strong> Великобритания</p>
+                <p><strong>Бренды:</strong> Vivienne Westwood</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родилась в 1941 в Англии. Была учительницей, но в 1971 открыла магазин с Малкольмом Маклареном, ставший центром панк-культуры.</p>
+    <p><strong>Влияние:</strong> Изобрела рваные футболки с булавками и тату-принты. Создала имидж Sex Pistols.</p>
+    <p><strong>Активизм:</strong> С 2000-х боролась за экологию. Её кампания "Climate Revolution" привлекла мировое внимание.</p>
+    <p><strong>Интересное:</strong> В 74 года снялась обнажённой для PETA в знак протеста против меха.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Helmut Lang.jpg" alt="Helmut Lang"></div>
+            <div class="designer-info">
+                <h2>Helmut Lang</h2>
+                <p><strong>Годы жизни:</strong> 1956–н.в.</p>
+                <p><strong>Страна:</strong> Австрия</p>
+                <p><strong>Бренды:</strong> Helmut Lang</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1956 в Австрии. Работал портным, прежде чем создать свой бренд в 1986. Переехал в Нью-Йорк в 1997.</p>
+    <p><strong>Инновации:</strong> Первым показал коллекцию онлайн (1998). Ввёл в моду минимализм 90-х и ремни поверх одежды.</p>
+    <p><strong>Уход:</strong> Оставил моду в 2005, посвятив себя искусству. Его скульптуры выставляются в галереях.</p>
+    <p><strong>Интересное:</strong> В 2010 сжёг весь свой архив, чтобы "освободить место для нового".</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Boris Bidjan Saberi.jpg" alt="Boris Bidjan Saberi"></div>
+            <div class="designer-info">
+                <h2>Boris Bidjan Saberi</h2>
+                <p><strong>Годы жизни:</strong> 1983-н.в.</p>
+                <p><strong>Страна:</strong> Германия</p>
+                <p><strong>Бренды:</strong> Boris Bidjan Saberi</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1983 в Германии в семье иранского художника и немецкой галеристки. Учился в Академии моды в Мюнхене.</p>
+    <p><strong>Эстетика:</strong> Смешивает восточные традиции с техно-футуризмом. Часто использует "состаренную" кожу и восковые пропитки.</p>
+    <p><strong>Философия:</strong> "Одежда должна нести следы времени". Его вещи часто выглядят потрёпанными или покрытыми патиной.</p>
+    <p><strong>Интересное:</strong> Коллекция "11" (2012) была вдохновлена суфийскими танцорами.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Martin Margiela.jpg" alt="Martin Margiela"></div>
+            <div class="designer-info">
+                <h2>Martin Margiela</h2>
+                <p><strong>Годы жизни:</strong> 1957-н.в.</p>
+                <p><strong>Страна:</strong> Бельгия</p>
+                <p><strong>Бренды:</strong> Maison Margiela</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1957 в Бельгии. Окончил Королевскую академию изящных искусств в Антверпене. Работал ассистентом у Жана Поля Готье.</p>
+    <p><strong>Анонимность:</strong> Никогда не давал интервью и не появлялся на публике. Его команда носила белые халаты как символ коллективного творчества.</p>
+    <p><strong>Инновации:</strong> Первым использовал винтажные ткани и "разобранную" обувь (табис).</p>
+    <p><strong>Интересное:</strong> В 2009 ушёл из собственного бренда, но до 2014 тайно создавал коллекции для Hermès.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Ann Demeulemeester.jpg" alt="Ann Demeulemeester"></div>
+            <div class="designer-info">
+                <h2>Ann Demeulemeester</h2>
+                <p><strong>Годы жизни:</strong> 1959-н.в.</p>
+                <p><strong>Страна:</strong> Бельгия</p>
+                <p><strong>Бренды:</strong> Ann Demeulemeester</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родилась в 1959 в Бельгии. Одна из "Антверпенской шестёрки". Основала бренд в 1985.</p>
+    <p><strong>Стиль:</strong> "Поэтичный анархизм" — чёрные кожаные куртки с романтичными рубашками. Обожала контраст грубого и нежного.</p>
+    <p><strong>Уход:</strong> В 2013 неожиданно покинула бренд, оставив письмо команде: "Я чувствую, что время пришло".</p>
+    <p><strong>Интересное:</strong> Её муж Патрик Робин — фотограф, который документировал все её коллекции.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Jun Takahashi.jpg" alt="Jun Takahashi"></div>
+            <div class="designer-info">
+                <h2>Jun Takahashi</h2>
+                <p><strong>Годы жизни:</strong> 1969-н.в.</p>
+                <p><strong>Страна:</strong> Япония</p>
+                <p><strong>Бренды:</strong> Undercover</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1969 в Японии. Учился в Bunka Fashion College вместе с Наокой Тадзаки (основателем Sacai).</p>
+    <p><strong>Бренд:</strong> Основал Undercover в 1990. Название вдохновлено романом "Заводной апельсин".</p>
+    <p><strong>Коллаборации:</strong> Работал с Nike (гибридные кроссовки), Uniqlo (линия UU), и даже создал костюмы для группы The Rolling Stones.</p>
+    <p><strong>Интересное:</strong> Его коллекция "Anatomy" (2010) с "разобранными" на части вещами шокировала публику.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Rick Owens.jpg" alt="Rick Owens"></div>
+            <div class="designer-info">
+                <h2>Rick Owens</h2>
+                <p><strong>Годы жизни:</strong> 1962-н.в.</p>
+                <p><strong>Страна:</strong> Франция</p>
+                <p><strong>Бренды:</strong> Rick Owens</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1962 в Калифорнии. Учился в Otis College of Art and Design, но бросил учёбу. Переехал в Париж в 2003.</p>
+    <p><strong>Эстетика:</strong> "Готический минимализм" — балахохи из овчины, "дутые" кроссовки и кожаные куртки-коконы.</p>
+    <p><strong>Скандалы:</strong> Показ с моделями в эротических позах (2015) и коллекция с "подгузниками" (2016) вызывали бурные обсуждения.</p>
+    <p><strong>Интересное:</strong> Его муж Мишель Лами — музыкант, чей образ повлиял на ДНК бренда.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/John Galliano.jpg" alt="John Galliano"></div>
+            <div class="designer-info">
+                <h2>John Galliano</h2>
+                <p><strong>Годы жизни:</strong> 1960-н.в.</p>
+                <p><strong>Страна:</strong> Великобритания</p>
+                <p><strong>Бренды:</strong> John Galliano</p>
+                <a href="#" class="read-more">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1960 в Гибралтаре. Вырос в Лондоне, окончил Central Saint Martins. Работал в Givenchy и Dior.</p>
+    <p><strong>Театральность:</strong> Его показы для Dior (1997-2011) были роскошными спектаклями с историческими отсылками.</p>
+    <p><strong>Скандал:</strong> В 2011 был уволен из Dior за антисемитские высказывания. После реабилитации возглавил Maison Margiela.</p>
+    <p><strong>Интересное:</strong> Коллекция "Les Incroyables" (1998) вдохновлена Французской революцией.</p>
+</div>
+
+        <div class="designer-card">
+            <div class="designer-photo"><img src="портреты/Jean Paul Gaultier.jpg" alt="Jean Paul Gaultier"></div>
+            <div class="designer-info">
+                <h2>Jean Paul Gaultier</h2>
+                <p><strong>Годы жизни:</strong> 1952-н.в.</p>
+                <p><strong>Страна:</strong> Франция</p>
+                <p><strong>Бренды:</strong> Jean Paul Gaultier</p>
+                <a href="#">Подробнее →</a>
+            </div>
+        </div>
+        <div class="designer-details">
+    <p><strong>Биография:</strong> Родился в 1952 в Париже. В 14 лет создал первую коллекцию для куклы Барби. Работал у Пьера Кардена.</p>
+    <p><strong>Поп-культура:</strong> Создал корсет Мадонны (1990) и костюмы для фильмов "Пятый элемент" и "Город грехов".</p>
+    <p><strong>Философия:</strong> "Священное и профанное" — смешивал религиозные мотивы с уличной модой.</p>
+    <p><strong>Интересное:</strong> В 2020 закрыл pret-a-porter, сосредоточившись на haute couture и парфюмерии.</p>
+</div>
+    </div>
+
+    <footer>
+        <p>© 2024 Fashion Archive. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Анимация карточек при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.designer-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 150 * index);
+            });
+            
+            // Подсветка активной страницы
+            const currentPage = location.pathname.split('/').pop();
+            document.querySelector(`nav a[href="${currentPage}"]`).classList.add('active');
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
